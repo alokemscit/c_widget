@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../theme/colors.dart';
+
 class CTabButton extends StatefulWidget {
   final bool isCrossButton;
   final String text;
@@ -37,9 +38,15 @@ class _CTabButtonState extends State<CTabButton> {
     // ---- SAME COLOR LOGIC AS CustomTool ----
 
     // BG Colors
-    final Color normalBg = theme.normalBg;
-    final Color hoverBg = theme.hoverBg;
-    final Color selectedBg = theme.selectedBg;
+    final Color selectedBg  = (Theme.of(context).brightness == Brightness.dark)
+        ? Colors.grey[700]!
+        : Colors.white;
+    // theme.normalBg;
+    final Color hoverBg = Theme.of(context)
+        .colorScheme
+        .surfaceVariant
+        .withOpacity(.1); //theme.hoverBg;
+    final Color normalBg = theme.normalBg; //theme.selectedBg;
 
     // Text Colors
     final Color normalText = theme.normalText;
@@ -53,35 +60,52 @@ class _CTabButtonState extends State<CTabButton> {
       onEnter: (_) => setState(() => isHover = true),
       onExit: (_) => setState(() => isHover = false),
       child: AnimatedContainer(
-        height: 22,
+        //height: 22,
         duration: const Duration(milliseconds: 180),
         curve: Curves.easeOut,
-        padding: const EdgeInsets.only(left: 6, right: 2, top: 1, bottom: 1),
+        padding: const EdgeInsets.only(left: 6, right: 2, ),
         decoration: BoxDecoration(
           color: widget.isSelected
               ? selectedBg
               : isHover
-                  ? hoverBg
+                  ? hoverBg.withOpacity(0.01)
                   : normalBg,
           borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(8), bottomRight: Radius.circular(8)),
-          border: Border.all(
-            width: AppThemeColors.borderWidth(context),
-            color: enabledBorderColor,
-          ),
+              topLeft: Radius.circular(8),
+              topRight:
+                  widget.isSelected ? Radius.circular(8) : Radius.circular(0),
+              bottomRight:
+                  widget.isSelected ? Radius.circular(0) : Radius.circular(8)),
+          border: widget.isSelected
+              ? Border(
+                  left: BorderSide(
+                    width: AppThemeColors.borderWidth(context),
+                    color: enabledBorderColor,
+                  ),
+                  right: BorderSide(
+                    width: AppThemeColors.borderWidth(context),
+                    color: enabledBorderColor,
+                  ),
+                  top: BorderSide(
+                    width: AppThemeColors.borderWidth(context),
+                    color: enabledBorderColor,
+                  ),
+                  
+                  )
+              : Border.all(
+                  width: AppThemeColors.borderWidth(context),
+                  color: enabledBorderColor,
+                ),
           boxShadow: isHover && !widget.isSelected
               ? [
                   BoxShadow(
-                    color: AppThemeColors.secondary(context).withOpacity(.15),
+                    color: hoverBg.withOpacity(
+                        0.05), //AppThemeColors.secondary(context).withOpacity(.15),
                     spreadRadius: -3,
-                    blurRadius: 3,
+                    blurRadius: 1,
                   )
                 ]
-              : widget.isSelected?[BoxShadow(
-                    color: AppThemeColors.secondary(context).withOpacity(.05),
-                    spreadRadius: 0,
-                    blurRadius: 0,
-                  )]: [],
+              :[],
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -96,9 +120,11 @@ class _CTabButtonState extends State<CTabButton> {
                 widget.text,
                 style: AppThemeColors.bodySmall(context).copyWith(
                   fontSize:
-                      (AppThemeColors.bodySmall(context).fontSize ?? 9.5) * .92,
-                  fontWeight: isHover || widget.isSelected ? FontWeight.bold : FontWeight.w600,
-                  color: isHover ? hoverText : normalText,
+                      (AppThemeColors.bodySmall(context).fontSize ?? 9.5) * .6,
+                  fontWeight: isHover || widget.isSelected
+                      ? FontWeight.w600
+                      : FontWeight.normal,
+                  color: isHover || widget.isSelected ? hoverText : normalText,
                 ),
               ),
             ),
@@ -123,8 +149,8 @@ class _CTabButtonState extends State<CTabButton> {
                       child: Icon(
                         Icons.close_outlined,
                         size:
-                            (AppThemeColors.bodyLarge(context).fontSize ?? 14) *
-                                1.4,
+                            (AppThemeColors.bodyLarge(context).fontSize ?? 12) *
+                                .7,
                         color: isCrossHover ? crossHover : crossNormal,
                       ),
                     ),

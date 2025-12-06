@@ -41,7 +41,7 @@ class CTextBox extends StatefulWidget {
       required this.controller,
       this.textInputType = TextInputType.text,
       this.maxLine = 1,
-      this.height = 28,
+      this.height = 26,
       this.textAlign = TextAlign.start,
       this.onChange,
       this.isPassword = false,

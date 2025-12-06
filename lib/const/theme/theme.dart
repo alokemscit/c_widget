@@ -518,14 +518,14 @@ TextTheme _textTheme(Color color, double s, {String? fontFamily}) {
   double size(double base) => (base * s).clamp(11, 24);
   return TextTheme(
     bodyLarge:
-        TextStyle(color: color, fontSize: size(12), fontFamily: fontFamily),
+        TextStyle(color: color, fontSize: size(13), fontFamily: fontFamily),
     bodyMedium: TextStyle(
         color: color,
-        fontSize: size(11),
+        fontSize: size(10),
         fontWeight: FontWeight.w600,
         fontFamily: fontFamily),
     bodySmall:
-        TextStyle(color: color, fontSize: size(9.4), fontFamily: fontFamily),
+        TextStyle(color: color, fontSize: size(9), fontFamily: fontFamily),
     titleLarge: TextStyle(
         color: color,
         fontWeight: FontWeight.bold,
@@ -566,10 +566,10 @@ InputDecorationTheme _inputDecoration(
     focusedErrorBorder:
         OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
     enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: border, width: 1.2),
+        borderSide: BorderSide(color: border, width: 1.1),
         borderRadius: BorderRadius.circular(4)),
     disabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: border.withOpacity(0.5), width: 2),
+        borderSide: BorderSide(color: border.withOpacity(0.5), width: 1.4),
         borderRadius: BorderRadius.circular(6)),
     focusedBorder: OutlineInputBorder(
         borderSide: BorderSide(color: focus, width: .8),
@@ -595,7 +595,7 @@ ElevatedButtonThemeData _buttonTheme(Color bg, Color fg, double s,
         fontSize: size(s),
         fontFamily: fontFamily,
       ),
-      padding: EdgeInsets.symmetric(horizontal: 14 * s, vertical: 8 * s),
+      padding: EdgeInsets.symmetric(horizontal: 14 * s, vertical: 6 * s),
       minimumSize: Size(64 * s, 32 * s),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       elevation: 3,
@@ -609,7 +609,7 @@ ElevatedButtonThemeData _buttonTheme(Color bg, Color fg, double s,
 CardTheme _cardTheme({Color? color}) => CardTheme(
       color: color ?? Colors.white,
       elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+      shape: RoundedRectangleBorder(),
       margin: const EdgeInsets.all(8),
     );
 DatePickerThemeData _calendarTheme(Color primary, Color font, double s) {

@@ -1,4 +1,5 @@
 
+import 'package:c_widget/const/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 import '../c_helper.dart';
@@ -19,7 +20,7 @@ class CTool extends StatefulWidget {
     this.onTap,
     this.isShowText = true,
     this.borderRadius = 4,
-    this.pading = const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+    this.pading = const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
   });
 
   @override
@@ -42,9 +43,9 @@ class _HoverToolState extends State<CTool> {
     }
 
     // BG colors based on theme + states
-    final Color normalBg = colorScheme.surfaceVariant.withOpacity(.6);
+    final Color normalBg = colorScheme.surfaceVariant.withOpacity(.1);
     final Color hoverBg = colorScheme.primary.withOpacity(.12);
-    final Color disabledBg = colorScheme.surfaceVariant.withOpacity(.2);
+    final Color disabledBg = colorScheme.surfaceVariant.withOpacity(.5);
     final inputTheme = theme.inputDecorationTheme;
     final sBorder = safeOutlineBorder(context);
     final enabledBorderColor = sBorder.borderSide.color;
@@ -79,7 +80,7 @@ class _HoverToolState extends State<CTool> {
           }
         },
         child: AnimatedContainer(
-          height: 26,
+          height: 20,
           duration: const Duration(milliseconds: 200),
           padding: widget.pading,
           decoration: BoxDecoration(
@@ -88,28 +89,33 @@ class _HoverToolState extends State<CTool> {
                 : _isHovered
                     ? hoverBg
                     : normalBg,
-            borderRadius: BorderRadius.circular(widget.borderRadius),
+            borderRadius: BorderRadius.circular(4),
             border: Border.all(
               width: sBorder.borderSide.width,
               color: widget.isDisable
-                  ? enabledBorderColor.withOpacity(.3)
-                  : enabledBorderColor,
+                  ? enabledBorderColor.withOpacity(.2)
+                  : enabledBorderColor.withOpacity(0.3),
             ),
             boxShadow: _isHovered && !widget.isDisable
                 ? [
                     BoxShadow(
-                      color: colorScheme.secondary.withOpacity(.15),
-                      spreadRadius: -3,
+                      color: AppThemeColors.scaffoldBackground(context),
+                      spreadRadius: 0,
                       blurRadius: 3,
                     )
                   ]
-                : [],
+                : [BoxShadow(
+                      color: AppThemeColors.scaffoldBackground(context),
+                      spreadRadius: 0,
+                      blurRadius: 1.5,
+                    )],
           ),
           child: Row(
+            //crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Icon(
                 _getIcon(widget.menu!),
-                size: (theme.textTheme.bodyLarge?.fontSize ?? 16) * 1.4,
+                size: (theme.textTheme.bodyLarge?.fontSize ?? 16) * 1.3,
                 color: (_isHovered && !widget.isDisable)
                     ? iconColor
                     : widget.isDisable
@@ -118,16 +124,16 @@ class _HoverToolState extends State<CTool> {
               ),
               if (widget.isShowText && _getText(widget.menu!) != '')
                 Padding(
-                  padding: const EdgeInsets.only(left: 6),
+                  padding: const EdgeInsets.only(left: 2),
                   child: Text(
                     _getText(widget.menu!),
                     style: theme.textTheme.bodySmall!.copyWith(
                       color: textColor,
                       fontSize:
-                          (theme.textTheme.bodySmall!.fontSize ?? 9.4) * .9,
+                          (theme.textTheme.bodySmall!.fontSize ?? 9.4) * .7,
                       fontWeight: _isHovered && !widget.isDisable
-                          ? FontWeight.bold
-                          : FontWeight.w600,
+                          ? FontWeight.w600
+                          : FontWeight.w500,
                     ),
                   ),
                 ),
@@ -236,11 +242,11 @@ String _getText(ToolMenuSet toolMenuSet) {
 
 Widget _customHorizontalDivider(
   BuildContext context, [
-  double height = 20,
+  double height = 14,
 ]) {
-  Color color = Theme.of(context).colorScheme.primary;
+  Color color =   Theme.of(context).colorScheme.secondary;
   return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+    padding: const EdgeInsets.symmetric(horizontal: 5.2, vertical: 2),
     child: Container(
       height: height,
       width: 0.5,

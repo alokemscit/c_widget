@@ -13,7 +13,7 @@ class CDropDown extends StatefulWidget {
       required this.list,
       required this.onTap,
       this.width = 100,
-      this.height = 28,
+      this.height = 26,
       this.labeltext = 'Select',
       this.focusNode,
       this.isError = false,

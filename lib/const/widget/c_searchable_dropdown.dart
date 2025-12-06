@@ -37,7 +37,7 @@ class CSearchableDropdown<T> extends StatefulWidget {
       this.onTextChenge,
       this.onSubmitted,
       this.textAlign = TextAlign.start,
-      this.height = 28,
+      this.height = 26,
       this.width = double.infinity,
       this.label = '',
       this.showOnFocus = true,

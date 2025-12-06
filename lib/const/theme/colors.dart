@@ -1,10 +1,9 @@
 import 'package:c_widget/const/c_helper.dart';
 import 'package:flutter/material.dart';
 
- 
 // New constructor that accepts context
-  class AppThemeColors {
-      final Color normalBg;
+class AppThemeColors {
+  final Color normalBg;
   final Color hoverBg;
   final Color selectedBg;
   final Color normalText;
@@ -18,18 +17,14 @@ import 'package:flutter/material.dart';
     Color? overrideColor,
     Color? overrideTextColor,
   })  : normalBg = overrideColor ??
-            Theme.of(context)
-                .colorScheme
-                .surfaceVariant
-                .withOpacity(.6),
-        hoverBg = Theme.of(context).colorScheme.primary.withOpacity(.12),
+            Theme.of(context).colorScheme.surfaceVariant.withOpacity(.6),
+        hoverBg = Theme.of(context).colorScheme.primary.withOpacity(.05),
         selectedBg = Theme.of(context).colorScheme.primary.withOpacity(.3),
 
         // ---------- TEXT COLOR (SAFE) ----------
         normalText = overrideTextColor ??
             (Theme.of(context).textTheme.bodyMedium?.color ??
                 Theme.of(context).colorScheme.onSurface),
-
         hoverText = Theme.of(context).colorScheme.primary,
         crossNormal = Theme.of(context).colorScheme.primary,
         crossHover = Theme.of(context).colorScheme.error,
@@ -47,41 +42,39 @@ import 'package:flutter/material.dart';
           return Theme.of(context).colorScheme.outline;
         })();
 
-
   /// Returns InputBorder style for enabled, disabled, or focused state
   static OutlineInputBorder inputBorder(
-  BuildContext context, {
-  bool isEnabled = true,
-  bool isFocused = false,
-}) {
-  final inputTheme = Theme.of(context).inputDecorationTheme;
-  final fallback = safeOutlineBorder(context);
+    BuildContext context, {
+    bool isEnabled = true,
+    bool isFocused = false,
+  }) {
+    final inputTheme = Theme.of(context).inputDecorationTheme;
+    final fallback = safeOutlineBorder(context);
 
-  // --- Convert ANY border to safe OutlineInputBorder ---
-  OutlineInputBorder toSafe(InputBorder? b) {
-    if (b is OutlineInputBorder) {
-      return b;
+    // --- Convert ANY border to safe OutlineInputBorder ---
+    OutlineInputBorder toSafe(InputBorder? b) {
+      if (b is OutlineInputBorder) {
+        return b;
+      }
+
+      if (b != null) {
+        return fallback.copyWith(
+          borderSide: b.borderSide,
+        );
+      }
+
+      return fallback;
     }
 
-    if (b != null) {
-      return fallback.copyWith(
-        borderSide: b.borderSide,
-      );
-    }
+    final enabledBorder = toSafe(inputTheme.enabledBorder);
+    final focusedBorder = toSafe(inputTheme.focusedBorder);
+    final disabledBorder = toSafe(inputTheme.disabledBorder);
 
-    return fallback;
+    if (!isEnabled) return disabledBorder;
+    if (isFocused) return focusedBorder;
+
+    return enabledBorder;
   }
-
-  final enabledBorder = toSafe(inputTheme.enabledBorder);
-  final focusedBorder = toSafe(inputTheme.focusedBorder);
-  final disabledBorder = toSafe(inputTheme.disabledBorder);
-
-  if (!isEnabled) return disabledBorder;
-  if (isFocused) return focusedBorder;
-
-  return enabledBorder;
-}
-
 
   /// Get border width
   static double borderWidth(BuildContext context,
@@ -103,6 +96,7 @@ import 'package:flutter/material.dart';
         .borderSide
         .color;
   }
+
 
   /// Get font size from InputDecoration
   static double fontSize(BuildContext context) {
@@ -128,6 +122,12 @@ import 'package:flutter/material.dart';
   static Color windowColor(BuildContext context) {
     return Theme.of(context).cardTheme.color as Color;
   }
+
+
+  
+  static Color toolBarColor(BuildContext context) => (Theme.of(context).brightness == Brightness.dark)
+      ? Colors.grey[700]!
+      : Colors.white;
 
   static TextStyle bodySmall(BuildContext context) =>
       Theme.of(context).textTheme.bodySmall!;

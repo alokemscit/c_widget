@@ -33,7 +33,7 @@ Widget c_frontPage(
           otherCondition && !(screenWidth < minWidth)
               ? SizedBox.shrink()
               : Positioned(
-                  top: 0,
+                  top: -4,
                   left: 0,
                   child: InkWell(
                       onTap: () {

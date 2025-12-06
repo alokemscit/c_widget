@@ -43,14 +43,17 @@ class CHeaderWithChild extends StatelessWidget {
       childWidget = Flexible(fit: FlexFit.tight, child: childWidget);
     }
 
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return 
+    
+    IntrinsicHeight(
+  child: Row(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         /// Caption area
         Container(
           width: capWidth,
-          constraints: const BoxConstraints(maxHeight: 28),
-          padding: const EdgeInsets.symmetric(horizontal: 6),
+       //   constraints: const BoxConstraints(maxHeight: 28),
+          padding: const EdgeInsets.symmetric(horizontal: 6,),
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
             color: backgroundColor ?? theme.colorScheme.surfaceVariant,
@@ -70,6 +73,6 @@ class CHeaderWithChild extends StatelessWidget {
         /// Child area
         childWidget,
       ],
-    );
+    ));
   }
 }

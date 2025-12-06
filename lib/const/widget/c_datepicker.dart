@@ -38,7 +38,7 @@ class CDatePicker extends StatefulWidget {
       // ignore: non_constant_identifier_names
       required this.controller,
       this.label = 'Select Date',
-      this.height = 28,
+      this.height = 26,
       this.width = 130,
       this.isBackDate = false,
       this.isFilled = false,
