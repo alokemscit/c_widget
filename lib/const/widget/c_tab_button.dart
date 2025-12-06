@@ -120,7 +120,7 @@ class _CTabButtonState extends State<CTabButton> {
                 widget.text,
                 style: AppThemeColors.bodySmall(context).copyWith(
                   fontSize:
-                      (AppThemeColors.bodySmall(context).fontSize ?? 9.5) * .6,
+                      (AppThemeColors.bodySmall(context).fontSize ?? 9.5) * .75,
                   fontWeight: isHover || widget.isSelected
                       ? FontWeight.w600
                       : FontWeight.normal,
@@ -150,7 +150,7 @@ class _CTabButtonState extends State<CTabButton> {
                         Icons.close_outlined,
                         size:
                             (AppThemeColors.bodyLarge(context).fontSize ?? 12) *
-                                .7,
+                                .9,
                         color: isCrossHover ? crossHover : crossNormal,
                       ),
                     ),

@@ -20,7 +20,7 @@ class CTool extends StatefulWidget {
     this.onTap,
     this.isShowText = true,
     this.borderRadius = 4,
-    this.pading = const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+    this.pading = const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
   });
 
   @override
@@ -80,7 +80,8 @@ class _HoverToolState extends State<CTool> {
           }
         },
         child: AnimatedContainer(
-          height: 20,
+          
+        //  height: 22,
           duration: const Duration(milliseconds: 200),
           padding: widget.pading,
           decoration: BoxDecoration(
@@ -115,7 +116,7 @@ class _HoverToolState extends State<CTool> {
             children: [
               Icon(
                 _getIcon(widget.menu!),
-                size: (theme.textTheme.bodyLarge?.fontSize ?? 16) * 1.3,
+                size: (theme.textTheme.bodyLarge?.fontSize ?? 16) * 1.4,
                 color: (_isHovered && !widget.isDisable)
                     ? iconColor
                     : widget.isDisable
@@ -130,7 +131,7 @@ class _HoverToolState extends State<CTool> {
                     style: theme.textTheme.bodySmall!.copyWith(
                       color: textColor,
                       fontSize:
-                          (theme.textTheme.bodySmall!.fontSize ?? 9.4) * .7,
+                          (theme.textTheme.bodySmall!.fontSize ?? 9.4) * .8,
                       fontWeight: _isHovered && !widget.isDisable
                           ? FontWeight.w600
                           : FontWeight.w500,
