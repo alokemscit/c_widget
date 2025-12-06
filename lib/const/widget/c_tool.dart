@@ -95,7 +95,7 @@ class _HoverToolState extends State<CTool> {
               width: sBorder.borderSide.width,
               color: widget.isDisable
                   ? enabledBorderColor.withOpacity(.2)
-                  : enabledBorderColor.withOpacity(0.3),
+                  : enabledBorderColor.withOpacity(0.2),
             ),
             boxShadow: _isHovered && !widget.isDisable
                 ? [
@@ -116,7 +116,7 @@ class _HoverToolState extends State<CTool> {
             children: [
               Icon(
                 _getIcon(widget.menu!),
-                size: (theme.textTheme.bodyLarge?.fontSize ?? 16) * 1.4,
+                size: (theme.textTheme.bodyLarge?.fontSize ?? 16) * 1.6,
                 color: (_isHovered && !widget.isDisable)
                     ? iconColor
                     : widget.isDisable
@@ -131,7 +131,7 @@ class _HoverToolState extends State<CTool> {
                     style: theme.textTheme.bodySmall!.copyWith(
                       color: textColor,
                       fontSize:
-                          (theme.textTheme.bodySmall!.fontSize ?? 9.4) * .8,
+                          (theme.textTheme.bodySmall!.fontSize ?? 9.4) * .9,
                       fontWeight: _isHovered && !widget.isDisable
                           ? FontWeight.w600
                           : FontWeight.w500,
@@ -243,14 +243,14 @@ String _getText(ToolMenuSet toolMenuSet) {
 
 Widget _customHorizontalDivider(
   BuildContext context, [
-  double height = 14,
+  double height = 18,
 ]) {
   Color color =   Theme.of(context).colorScheme.secondary;
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 5.2, vertical: 2),
     child: Container(
       height: height,
-      width: 0.5,
+      width: 0.7,
       decoration: BoxDecoration(
         color: color.withOpacity(0.8),
       ),
