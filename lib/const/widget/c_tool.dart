@@ -1,18 +1,15 @@
-
 import 'package:c_widget/const/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 import '../c_helper.dart';
 class CTool extends StatefulWidget {
   final ToolMenuSet? menu;
-  final bool isHovered;
-  final bool isDisable;
-  final Function()? onTap;
-  final bool isShowText;
+  final bool isHovered, isDisable, isShowText;
+  final VoidCallback? onTap;
   final double borderRadius;
-  final EdgeInsets pading;
+  final EdgeInsets padding;
 
-  CTool({
+  const CTool({
     super.key,
     this.menu,
     this.isHovered = true,
@@ -20,121 +17,95 @@ class CTool extends StatefulWidget {
     this.onTap,
     this.isShowText = true,
     this.borderRadius = 4,
-    this.pading = const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+    this.padding = const EdgeInsets.symmetric(horizontal: 6, vertical: 1.5),
   });
 
   @override
-  _HoverToolState createState() => _HoverToolState();
+  State<CTool> createState() => _CToolState();
 }
 
-class _HoverToolState extends State<CTool> {
-  bool _isHovered = false;
+class _CToolState extends State<CTool> {
+  bool _hover = false;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final cs = theme.colorScheme;
 
     if (widget.menu == ToolMenuSet.divider) {
       return _customHorizontalDivider(context);
     }
-    if (widget.menu == ToolMenuSet.none) {
-      return const SizedBox.shrink();
-    }
+    if (widget.menu == ToolMenuSet.none) return const SizedBox.shrink();
 
-    // BG colors based on theme + states
-    final Color normalBg = colorScheme.surfaceVariant.withOpacity(.1);
-    final Color hoverBg = colorScheme.primary.withOpacity(.12);
-    final Color disabledBg = colorScheme.surfaceVariant.withOpacity(.5);
-    final inputTheme = theme.inputDecorationTheme;
-    final sBorder = safeOutlineBorder(context);
-    final enabledBorderColor = sBorder.borderSide.color;
-    // Icon colors
-    final Color iconColor = widget.isDisable
-        ? colorScheme.onSurface.withOpacity(.4)
-        : colorScheme.secondary;
+    final isDisabled = widget.isDisable;
+    final isHovering = _hover && !isDisabled;
 
-    // Text colors
-    final Color textColor = widget.isDisable
-        ? theme.textTheme.bodyMedium!.color!.withOpacity(.4)
-        : theme.textTheme.bodyMedium!.color!;
+    final buttonBg = theme.elevatedButtonTheme.style?.backgroundColor
+            ?.resolve({MaterialState.focused}) ??
+        cs.primary;
+
+    final buttonFg = (theme.elevatedButtonTheme.style?.foregroundColor
+            ?.resolve({MaterialState.focused}) ??
+        cs.onPrimary);
+
+    final bgColor = isDisabled
+        ? cs.surfaceVariant.withOpacity(.5)
+        : isHovering
+            ? buttonBg
+            : cs.primary.withOpacity(.92);
+
+    final borderColor = safeOutlineBorder(context).borderSide.color
+        .withOpacity(isDisabled ? .5 : .8);
+
+    final iconColor = isDisabled
+        ? cs.onSurface.withOpacity(.4)
+        : isHovering
+            ? cs.onPrimary
+            : buttonFg;
+
+    final shadow = BoxShadow(
+      color: AppThemeColors.scaffoldBackground(context),
+      blurRadius: isHovering ? 3 : 1.5,
+    );
 
     return MouseRegion(
-      onEnter: (_) {
-        if (widget.isHovered && !widget.isDisable) {
-          setState(() => _isHovered = true);
-        }
-      },
-      onExit: (_) {
-        if (widget.isHovered && !widget.isDisable) {
-          setState(() => _isHovered = false);
-        }
-      },
-      cursor: widget.isDisable
-          ? SystemMouseCursors.basic
-          : SystemMouseCursors.click,
+      cursor:
+          isDisabled ? SystemMouseCursors.basic : SystemMouseCursors.click,
+      onEnter: (_) => widget.isHovered && !isDisabled
+          ? setState(() => _hover = true)
+          : null,
+      onExit: (_) => widget.isHovered && !isDisabled
+          ? setState(() => _hover = false)
+          : null,
       child: GestureDetector(
-        onTap: () {
-          if (!widget.isDisable) {
-            widget.onTap?.call();
-          }
-        },
+        onTap: isDisabled ? null : widget.onTap,
         child: AnimatedContainer(
-          
-        //  height: 22,
           duration: const Duration(milliseconds: 200),
-          padding: widget.pading,
+          padding: widget.padding,
           decoration: BoxDecoration(
-            color: widget.isDisable
-                ? disabledBg
-                : _isHovered
-                    ? hoverBg
-                    : normalBg,
-            borderRadius: BorderRadius.circular(4),
-            border: Border.all(
-              width: sBorder.borderSide.width,
-              color: widget.isDisable
-                  ? enabledBorderColor.withOpacity(.2)
-                  : enabledBorderColor.withOpacity(0.2),
-            ),
-            boxShadow: _isHovered && !widget.isDisable
-                ? [
-                    BoxShadow(
-                      color: AppThemeColors.scaffoldBackground(context),
-                      spreadRadius: 0,
-                      blurRadius: 3,
-                    )
-                  ]
-                : [BoxShadow(
-                      color: AppThemeColors.scaffoldBackground(context),
-                      spreadRadius: 0,
-                      blurRadius: 1.5,
-                    )],
+            color: bgColor,
+            borderRadius: BorderRadius.circular(widget.borderRadius),
+            border: Border.all(color: borderColor),
+            boxShadow: [shadow],
           ),
           child: Row(
-            //crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Icon(
                 _getIcon(widget.menu!),
-                size: (theme.textTheme.bodyLarge?.fontSize ?? 16) * 1.6,
-                color: (_isHovered && !widget.isDisable)
-                    ? iconColor
-                    : widget.isDisable
-                        ? textColor
-                        : colorScheme.primary,
+                size: (theme.textTheme.bodyLarge?.fontSize ?? 16) * 1.4,
+                color: iconColor,
               ),
-              if (widget.isShowText && _getText(widget.menu!) != '')
+              if (widget.isShowText && _getText(widget.menu!).isNotEmpty)
                 Padding(
                   padding: const EdgeInsets.only(left: 2),
                   child: Text(
                     _getText(widget.menu!),
                     style: theme.textTheme.bodySmall!.copyWith(
-                      color: textColor,
+                      color: iconColor,
                       fontSize:
                           (theme.textTheme.bodySmall!.fontSize ?? 9.4) * .9,
-                      fontWeight: _isHovered && !widget.isDisable
-                          ? FontWeight.w600
-                          : FontWeight.w500,
+                      fontWeight:
+                          isHovering ? FontWeight.w600 : FontWeight.w500,
                     ),
                   ),
                 ),
@@ -245,7 +216,7 @@ Widget _customHorizontalDivider(
   BuildContext context, [
   double height = 18,
 ]) {
-  Color color =   Theme.of(context).colorScheme.secondary;
+  Color color = Theme.of(context).colorScheme.secondary;
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 5.2, vertical: 2),
     child: Container(
