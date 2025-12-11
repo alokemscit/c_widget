@@ -25,3 +25,4 @@ export 'const/theme/theme.dart';
 export 'const/theme/colors.dart';
 export 'const/widget/c_front_page.dart';
 export 'const/c_helper.dart';
+export 'const/widget/c_tab_menu_bar.dart';
