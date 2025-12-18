@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../theme/colors.dart';
-
 class CTabButton extends StatefulWidget {
   final bool isCrossButton;
   final String text;
@@ -32,132 +31,118 @@ class _CTabButtonState extends State<CTabButton> {
   @override
   Widget build(BuildContext context) {
     AppThemeColors theme = AppThemeColors(context);
-
     final enabledBorderColor = theme.borderColor;
 
-    // ---- SAME COLOR LOGIC AS CustomTool ----
-
-    // BG Colors
-    final Color selectedBg  = (Theme.of(context).brightness == Brightness.dark)
-        ? Colors.grey[700]!
-        : Colors.white;
-    // theme.normalBg;
-    final Color hoverBg = Theme.of(context)
-        .colorScheme
-        .surfaceVariant
-        .withOpacity(.1); //theme.hoverBg;
-    final Color normalBg = theme.normalBg; //theme.selectedBg;
-
-    // Text Colors
-    final Color normalText = theme.normalText;
-    final Color hoverText = theme.hoverText;
-
-    // Cross Button Colors
+    final Color hoverBg  =
+        (Theme.of(context).brightness == Brightness.dark)
+            ? Colors.grey[700]!
+            : Colors.white;
+    final Color  selectedBg=
+        Theme.of(context).colorScheme.surfaceVariant.withOpacity(.05);
+    final Color normalBg = theme.normalBg;
+    final Color  hoverText= theme.normalText;
+    final Color normalText = theme.hoverText;
     final Color crossNormal = theme.crossNormal;
     final Color crossHover = theme.crossHover;
 
+    // ------------------- USE ClipRRect TO AVOID BORDER ERROR -------------------
     return MouseRegion(
       onEnter: (_) => setState(() => isHover = true),
       onExit: (_) => setState(() => isHover = false),
-      child: AnimatedContainer(
-        //height: 22,
-        duration: const Duration(milliseconds: 180),
-        curve: Curves.easeOut,
-        padding: const EdgeInsets.only(left: 6, right: 2, ),
+      child: Container(
+        padding: EdgeInsets.zero,
         decoration: BoxDecoration(
-          color: widget.isSelected
-              ? selectedBg
-              : isHover
-                  ? hoverBg.withOpacity(0.01)
-                  : normalBg,
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(8),
-              topRight:
-                  widget.isSelected ? Radius.circular(8) : Radius.circular(0),
-              bottomRight:
-                  widget.isSelected ? Radius.circular(0) : Radius.circular(8)),
-          border: widget.isSelected
-              ? Border(
-                  left: BorderSide(
-                    width: AppThemeColors.borderWidth(context),
-                    color: enabledBorderColor,
-                  ),
-                  right: BorderSide(
-                    width: AppThemeColors.borderWidth(context),
-                    color: enabledBorderColor,
-                  ),
-                  top: BorderSide(
-                    width: AppThemeColors.borderWidth(context),
-                    color: enabledBorderColor,
-                  ),
-                  
-                  )
-              : Border.all(
-                  width: AppThemeColors.borderWidth(context),
-                  color: enabledBorderColor,
-                ),
-          boxShadow: isHover && !widget.isSelected
-              ? [
-                  BoxShadow(
-                    color: hoverBg.withOpacity(
-                        0.05), //AppThemeColors.secondary(context).withOpacity(.15),
-                    spreadRadius: -3,
-                    blurRadius: 1,
-                  )
-                ]
-              :[],
+           borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(6),
+          topRight: widget.isSelected ? Radius.circular(6) : Radius.circular(0),
+          bottomRight: widget.isSelected ? Radius.circular(0) : Radius.circular(6),
         ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            // MAIN TEXT
-            InkWell(
-              hoverColor: Colors.transparent,
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              onTap: widget.buttonClick,
-              child: Text(
-                widget.text,
-                style: AppThemeColors.bodySmall(context).copyWith(
-                  fontSize:
-                      (AppThemeColors.bodySmall(context).fontSize ?? 9.5) * .75,
-                  fontWeight: isHover || widget.isSelected
-                      ? FontWeight.w600
-                      : FontWeight.normal,
-                  color: isHover || widget.isSelected ? hoverText : normalText,
+            color: widget.isSelected
+                ? selectedBg
+                : isHover
+                    ? hoverBg.withOpacity(0.01)
+                    : normalBg,
+            // USE uniform border
+            border:widget.isSelected? Border(
+top: BorderSide(width: AppThemeColors.borderWidth(context)*.7,
+              color: enabledBorderColor,),
+              left: BorderSide(width: AppThemeColors.borderWidth(context)*.7,
+              color: enabledBorderColor,),
+              right: BorderSide(width: AppThemeColors.borderWidth(context)*.7,
+              color: enabledBorderColor,),
+              
+
+            ) : Border.all(
+              width: AppThemeColors.borderWidth(context)*.7,
+              color: enabledBorderColor,
+            ),
+            boxShadow: isHover && !widget.isSelected
+                ? [
+                    BoxShadow(
+                      color: hoverBg.withOpacity(0.05),
+                      spreadRadius: 0,
+                      blurRadius: 0,
+                    )
+                  ]
+                :[],
+          ),
+       
+        child: AnimatedContainer(
+          decoration: BoxDecoration(color: Colors.transparent),
+          duration: const Duration(milliseconds: 180),
+          curve: Curves.easeOut,
+          padding: const EdgeInsets.only(left: 6, right: 2),
+          
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              // MAIN TEXT
+              InkWell(
+                hoverColor: Colors.transparent,
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                onTap: widget.buttonClick,
+                child: Text(
+                  widget.text,
+                  style: AppThemeColors.bodySmall(context).copyWith(
+                    fontSize:
+                        (AppThemeColors.bodySmall(context).fontSize ?? 9.5) * .9,
+                    fontWeight: isHover || widget.isSelected
+                        ? FontWeight.w600
+                        : FontWeight.w500,
+                    color: isHover || widget.isSelected ? hoverText : normalText,
+                  ),
                 ),
               ),
-            ),
 
-            // CROSS BUTTON
-            if (widget.isCrossButton)
-              Padding(
-                padding: const EdgeInsets.only(left: 6),
-                child: MouseRegion(
-                  onEnter: (_) => setState(() => isCrossHover = true),
-                  onExit: (_) => setState(() => isCrossHover = false),
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(50),
-                    hoverColor: Colors.transparent,
-                    // splashColor:  Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    onTap: widget.crossButtonClick,
-                    child: Container(
-                      padding: EdgeInsets.all(1),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50)),
-                      child: Icon(
-                        Icons.close_outlined,
-                        size:
-                            (AppThemeColors.bodyLarge(context).fontSize ?? 12) *
-                                .9,
-                        color: isCrossHover ? crossHover : crossNormal,
+              // CROSS BUTTON
+              if (widget.isCrossButton)
+                Padding(
+                  padding: const EdgeInsets.only(left: 6),
+                  child: MouseRegion(
+                    onEnter: (_) => setState(() => isCrossHover = true),
+                    onExit: (_) => setState(() => isCrossHover = false),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(50),
+                      hoverColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: widget.crossButtonClick,
+                      child: Container(
+                        padding: const EdgeInsets.all(1),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        child: Icon(
+                          Icons.close_outlined,
+                          size: (AppThemeColors.bodyLarge(context).fontSize ?? 12) * .9,
+                          color: isCrossHover ||widget.isSelected ? crossHover : crossNormal,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-          ],
+            ],
+          ),
         ),
       ),
     );
