@@ -63,6 +63,8 @@ class _CSearchableDropdownState<T>
 
   @override
   Widget build(BuildContext context) {
+    // final isDark =
+    // Theme.of(context).brightness == Brightness.dark;
     return CupertinoTypeAheadField<T>(
       showOnFocus: widget.showOnFocus,
       focusNode: widget.focusNode,
@@ -108,7 +110,7 @@ class _CSearchableDropdownState<T>
       },
       
       decorationBuilder: (context, child) => Material(
-        color: AppThemeColors.scaffoldBackground(context),
+        color: Theme.of(context).cardTheme.color, //isDark?AppThemeColors.scaffoldBackground(context):Colors.white,
         type: MaterialType.card,
         elevation: 4,
         borderRadius: safeOutlineBorder(context).borderRadius,
