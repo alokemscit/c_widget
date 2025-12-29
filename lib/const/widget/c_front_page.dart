@@ -25,7 +25,7 @@ Widget c_frontPage(
           
           Column(
             children: [
-              Padding(padding: EdgeInsets.only(left:  otherCondition && !(screenWidth < minWidth)?0:24 ),child:  topBar ?? SizedBox.shrink(),)
+              Padding(padding: EdgeInsets.only(left:  otherCondition && !(screenWidth < minWidth)?8:24 ,),child:  topBar ?? SizedBox.shrink(),)
             ,
               secondChild
             ],
@@ -33,7 +33,7 @@ Widget c_frontPage(
           otherCondition && !(screenWidth < minWidth)
               ? SizedBox.shrink()
               : Positioned(
-                  top: -4,
+                  top: 0,
                   left: 0,
                   child: InkWell(
                       onTap: () {

@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 
 import '../theme/colors.dart';
@@ -8,12 +6,13 @@ class CHoverMaskContainer extends StatefulWidget {
   final Widget child;
   final Color? hoverColor;
   final Duration duration;
-
+  final double borderRadious;
   const CHoverMaskContainer({
     super.key,
     required this.child,
     this.hoverColor, // light blue overlay
     this.duration = const Duration(milliseconds: 250),
+    this.borderRadious=0
   });
 
   @override
@@ -33,7 +32,11 @@ class _CHoverMaskContainerState extends State<CHoverMaskContainer> {
         duration: widget.duration,
         curve: Curves.easeOut,
         foregroundDecoration: BoxDecoration(
-          color: isHover ? (widget.hoverColor??AppThemeColors.primary(context).withAlpha(5)) : Colors.transparent,
+          borderRadius: BorderRadius.circular(widget.borderRadious),
+          color: isHover
+              ? (widget.hoverColor ??
+                  AppThemeColors.primary(context).withAlpha(5))
+              : Colors.transparent,
         ),
         child: widget.child,
       ),
