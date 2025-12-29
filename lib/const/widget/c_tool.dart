@@ -1,15 +1,14 @@
 import 'package:c_widget/const/theme/colors.dart';
 import 'package:flutter/material.dart';
-
 import '../c_helper.dart';
+// ignore: must_be_immutable
 class CTool extends StatefulWidget {
   final ToolMenuSet? menu;
-  final bool isHovered, isDisable, isShowText;
-  final VoidCallback? onTap;
+  bool isHovered, isDisable, isShowText;
+  VoidCallback? onTap;
   final double borderRadius;
   final EdgeInsets padding;
-
-  const CTool({
+    CTool({
     super.key,
     this.menu,
     this.isHovered = true,
@@ -19,6 +18,24 @@ class CTool extends StatefulWidget {
     this.borderRadius = 4,
     this.padding = const EdgeInsets.symmetric(horizontal: 6, vertical: 1.5),
   });
+
+  CTool copyWith({
+  bool? isDisable,
+  bool? isHovered,
+  bool? isShowText,
+  VoidCallback? onTap,
+}) {
+  return CTool(  
+    key: key,  
+    menu: menu,
+    isDisable: isDisable ?? this.isDisable,
+    isHovered: isHovered ?? this.isHovered,
+    isShowText: isShowText ?? this.isShowText,
+    onTap: onTap ?? this.onTap,
+    borderRadius: borderRadius,
+    padding: padding,
+  );
+}
 
   @override
   State<CTool> createState() => _CToolState();

@@ -70,6 +70,13 @@ class _CDropDown2State extends State<CDropDown> {
             width: widget.width,
             height: widget.height,
             child: DropdownButtonFormField(
+
+//isDense: true,
+itemHeight: null,
+
+
+              dropdownColor: Theme.of(context).cardTheme.color,
+              // itemHeight: 32,
               elevation: 3,
              enableFeedback:widget.isDisable?false:true ,
               icon: Icon(Icons.keyboard_arrow_down,
@@ -77,7 +84,7 @@ class _CDropDown2State extends State<CDropDown> {
                   color: theme.colorScheme.secondary),
               padding: EdgeInsets.zero,
               focusNode: widget.focusNode,
-              style: theme.textTheme.bodyMedium,
+              style:theme.textTheme.bodyMedium,
               value: (widget.isScapeZeroValue &&
                       (widget.id == '' || widget.id.toString() == '0'))
                   ? null
@@ -87,12 +94,9 @@ class _CDropDown2State extends State<CDropDown> {
               items: widget.list!
                   .map((f) => DropdownMenuItem<String>(
                       value: f.id.toString(),
-                      child: Padding(
-                        padding: EdgeInsets.zero,
-                        child: Text(
-                          f.name!,
-                          style: theme.textTheme.bodyMedium,
-                        ),
+                      child: Text(
+                        f.name!,
+                        style: theme.textTheme.bodyMedium,
                       )))
                   .toList(),
               onChanged: (v) {
@@ -103,7 +107,7 @@ class _CDropDown2State extends State<CDropDown> {
                 widget.onTap(v);
               },
              
-                dropdownColor: AppThemeColors.scaffoldBackground(context),
+              //  dropdownColor: AppThemeColors.scaffoldBackground(context),
               decoration: InputDecoration(
                   //  enabled: false,
                   fillColor: widget.isDisable

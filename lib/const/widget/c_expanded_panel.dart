@@ -213,7 +213,7 @@ class CTreeNode extends StatelessWidget {
         isLeadingIcon: isLeadingIcon,
         isExpanded: isExpanded,
         iconSize: iconSize,
-        selectedTitleColor: Colors.grey.shade300,
+       // selectedTitleColor: Colors.grey.shade300,
         titleBuilder: (expanded) {
           return Row(
             children: [
@@ -221,7 +221,7 @@ class CTreeNode extends StatelessWidget {
                 child: Text(
                   title,
                   overflow: TextOverflow.ellipsis,
-                  style: expanded
+                  style: !expanded
                       ? AppThemeColors.bodyMedium(context).copyWith(
                           color: AppThemeColors.secondary(context),
                           fontSize:
