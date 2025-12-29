@@ -1,5 +1,4 @@
-import 'dart:async';
-import 'dart:nativewrappers/_internal/vm/lib/ffi_allocation_patch.dart';
+import 'dart:async'; 
 
 import 'package:c_widget/const/widget/c_tab_button.dart';
 import 'package:flutter/material.dart';
