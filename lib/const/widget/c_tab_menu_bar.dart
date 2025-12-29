@@ -209,7 +209,7 @@ double calculateHeight(BuildContext context) {
 
 class CTabMenuBar1 extends StatelessWidget {
   final ScrollController scrollController;
-  final Function(ItemModel menuitem)? onCrossClick;
+ final void Function(ItemModel menuitem)? onCrossClick;
   const CTabMenuBar1(
       {super.key, required this.scrollController, this.onCrossClick});
 
@@ -262,9 +262,7 @@ class CTabMenuBar1 extends StatelessWidget {
                       context.read<MenuItemBloc>().add(
                             ItemMenuDelete(menuitem: menuitem),
                           );
-                      if (onCrossClick != null) {
-                        onCrossClick!(menuitem);
-                      }
+                     onCrossClick?.call(menuitem);
                       //deleteController(menuitem.id);
                     },
                   ),
